@@ -13,6 +13,6 @@ python3 flaskr/__init__.py
 cd <project directory>
 pip install virtualenv
 virtualenv venv
-\venv\Scripts\activate.bat
-python3 flaskr/__init__.py
+venv\Scripts\activate.bat
+python flaskr/__init__.py
 ```
