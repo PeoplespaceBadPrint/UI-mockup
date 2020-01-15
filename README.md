@@ -1,5 +1,5 @@
 # This is UI mockup
-## run commend
+## run command
 `
 python flaskr/__init__.py
 `
