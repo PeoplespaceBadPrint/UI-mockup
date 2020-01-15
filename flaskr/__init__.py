@@ -1,6 +1,5 @@
-import os
-
-from flask import Flask, render_template
+from flask import Flask, render_template, request, make_response, jsonify, Response
+from cam import VideoCamera
 
 app = Flask(__name__)
 
@@ -8,11 +7,21 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-# a simple page that says hello
+
 @app.route('/about')
 def hello():
     return render_template('about.html')
 
-# run the application
-if __name__ == "__main__":
-    app.run(debug=True)
+def gen(camera):
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen(VideoCamera()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', threaded=True)
