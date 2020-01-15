@@ -1,5 +1,6 @@
 # This is UI mockup
 ## run command
 `
-python flaskr/__init__.py
+source venv/bin/activate
+python3 flaskr/__init__.py
 `
