@@ -1,34 +1,74 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <title>index page</title>
+<title>index page</title>
 {% endblock %}
 
 {% block header %}
-    {% include 'navbar.html' %}
+{% include 'navbar.html' %}
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <br>
-        <div class="row">
-            <div class="col"></div>
-            <div class="col">
-                <div class="card" style="width: 20rem;">
-                    <img src="{{url_for('video_feed')}}" class="card-img-top" alt="webcam image">
-                    <div class="card-body">
-                      <h5 class="card-title">Spaghetti Detecting...</h5>
-                      <p class="card-text">[[Detection gauge image]]</p>
-                      <a href="#" class="btn btn-outline-danger btn-block">Stop printer</a>
-                    </div>
-                  </div>
-            </div>
-            <div class="col"></div>
-        </div>
-        <br>
-    </div>
+<div class="container">
+	<br>
+	<div class="row">
+		<div class="col"></div>
+		<div class="col">
+			<div class="card" style="width: 20rem;">
+				<img src="{{url_for('static', filename='img/test.png')}}" class="card-img-top" alt="webcam image" id="webcam">
+				<div class="card-body">
+					<button class="testbtn" type="button">
+						ajax test
+					</button>
+					<h5 class="card-title">Spaghetti Detecting...</h5>
+					<script type=text/javascript>
+						console.log('before send');
+						
+						var apiURL = "http://18.221.159.108:3333/p/"
+						$(".testbtn").click(function (event) {
+							event.preventDefault()
+							$.ajax({
+								type: "GET",
+								url: apiURL,
+								data: "img=http://0.0.0.0:8080/img/test.png",
+								dataType : "jsonp",
+								jsonp : "callback",
+								success: function(data) {
+									console.log(data)
+								},
+								error: function(err) {
+									console.log(err)
+								}
+							})
+						})
+					</script>
+					<p class="card-text" id="detection">
+						<div class="text-center gauge">
+							<canvas id="gauge" data-type="radial-gauge" data-value-dec="0" data-value-int="0"
+							  data-width="200" data-height="200" data-units="false" data-title="Looking Good" data-value-box="false"
+							  data-min-value="0" data-max-value="100" data-major-ticks='["","","",""]' data-minor-ticks="4"
+							  data-highlights='[
+														 { "from": 0, "to": 33, "color": "#5cb85c" },
+														 { "from": 33, "to": 67, "color": "#f0ad4e" },
+														 { "from": 67, "to": 100, "color": "#d9534f" }
+													]' data-color-plate="rgba(255,255,255,.0)" data-color-title="#5cb85c"
+							  data-color-stroke-ticks="#EBEBEB" data-color-numbers="#eee"
+							  data-color-needle-start="rgba(240, 128, 128, 1)" data-color-needle-end="rgba(255, 160, 122, .9)"
+							  data-value-box="true" data-animation-rule="bounce" data-animation-duration="500"
+							  data-animated-value="true" data-start-angle="90" data-ticks-angle="180" data-borders="false"></canvas>
+						 </div>
+					</p>
+					<a href="#" class="btn btn-outline-danger btn-block">Stop printer</a>
+				</div>
+			</div>
+		</div>
+		<div class="col"></div>
+	</div>
+	<br>
+</div>
+
 {% endblock %}
 
 {% block footer %}
-    {% include 'footer.html' %}
+{% include 'footer.html' %}
 {% endblock %}
